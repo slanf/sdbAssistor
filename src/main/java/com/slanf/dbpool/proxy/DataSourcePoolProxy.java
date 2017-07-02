@@ -17,11 +17,11 @@ public class DataSourcePoolProxy {
     /**
      * 获取数据连接的次数
      */
-    private final AtomicLong getConnectionNum = new AtomicLong(0);
+    private static final AtomicLong getConnectionNum = new AtomicLong(0);
     /**
      * 多数据源，key为数据源名称，val为数据源
      */
-    private final ConcurrentHashMap<String,AbstractDataSourcePool> pools = new ConcurrentHashMap<String, AbstractDataSourcePool>();
+    private static final ConcurrentHashMap<String,AbstractDataSourcePool> pools = new ConcurrentHashMap<String, AbstractDataSourcePool>();
 
     /**
      * 获得对应数据源连接
@@ -29,7 +29,7 @@ public class DataSourcePoolProxy {
      * @return
      * @throws DataSourceNotFoundException
      */
-    public ConnectionEntry getConnectionEntry(String dbname) throws DataSourceNotFoundException{
+    public static ConnectionEntry getConnectionEntry(String dbname) throws DataSourceNotFoundException{
         getConnectionNum.incrementAndGet();
         AbstractDataSourcePool pool = pools.get(dbname);
         if(null != pool)
@@ -43,7 +43,7 @@ public class DataSourcePoolProxy {
      * @param pool 数据源
      * @return
      */
-    public AbstractDataSourcePool addNewPool(String name,AbstractDataSourcePool pool){
-        return this.pools.put(name,pool);
+    public static AbstractDataSourcePool addNewPool(String name,AbstractDataSourcePool pool){
+        return pools.put(name,pool);
     }
 }

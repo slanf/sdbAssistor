@@ -14,4 +14,12 @@ public class DataSourcePoolTest {
         AbstractDataSourcePool dsp = new MapDataSourcePool(new DataSource("jdbc:mysql://slanf.cn:3306/test", "root","admin","com.mysql.jdbc.Driver"));
         dsp.get();
     }
+
+    @Test
+    public void testClassLoader(){
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        ClassLoader classLoader1 = DataSourcePoolTest.class.getClassLoader();
+        ClassLoader classLoader2 = DataSource.class.getClassLoader();
+        System.out.println(classLoader==classLoader2);
+    }
 }
